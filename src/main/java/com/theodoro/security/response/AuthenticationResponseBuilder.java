@@ -1,4 +1,4 @@
-package com.theodoro.security.auth;
+package com.theodoro.security.response;
 
 public final class AuthenticationResponseBuilder {
     private String accessToken;

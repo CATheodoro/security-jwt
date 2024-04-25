@@ -1,4 +1,4 @@
-package com.theodoro.security.auth;
+package com.theodoro.security.request;
 
 public class AuthenticationRequest {
 

@@ -1,5 +1,9 @@
-package com.theodoro.security.auth;
+package com.theodoro.security.controller;
 
+import com.theodoro.security.request.AuthenticationRequest;
+import com.theodoro.security.request.RegisterRequest;
+import com.theodoro.security.response.AuthenticationResponse;
+import com.theodoro.security.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +35,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token")
-    public  void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         service.refreshToken(request, response);
     }
 }

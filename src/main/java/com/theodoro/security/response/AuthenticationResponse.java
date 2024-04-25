@@ -1,4 +1,4 @@
-package com.theodoro.security.auth;
+package com.theodoro.security.response;
 
 
 public class AuthenticationResponse {

@@ -17,8 +17,14 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${security.secret-key}")
+    @Value("${application.security.jwt.secret-key}")
     private String SECRETE_KEY;
+
+    @Value("${application.security.jwt.expiration}")
+    private Long EXPIRATION_JWT;
+
+    @Value("${application.security.jwt.refresh-token.expiration}")
+    private Long EXPIRATION_REFRESH_JWT;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -42,14 +48,21 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(
-            Map<String, Objects> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Objects> extraClaims, UserDetails userDetails) {
+        return buildToken(extraClaims, userDetails, EXPIRATION_JWT);
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(new HashMap<>(), userDetails, EXPIRATION_REFRESH_JWT);
+    }
+
+    public String buildToken(Map<String, Objects> extraClaims, UserDetails userDetails, Long expirationJwt){
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + expirationJwt))
                 .signWith(getSignIngKey())
                 .compact();
     }

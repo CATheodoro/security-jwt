@@ -1,14 +1,19 @@
-package com.theodoro.security.auth;
+package com.theodoro.security.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoro.security.config.JwtService;
-import com.theodoro.security.user.UserBuilder;
-import com.theodoro.security.user.UserRepository;
+import com.theodoro.security.model.UserBuilder;
+import com.theodoro.security.repository.UserRepository;
+import com.theodoro.security.request.AuthenticationRequest;
+import com.theodoro.security.request.RegisterRequest;
+import com.theodoro.security.response.AuthenticationResponse;
+import com.theodoro.security.response.AuthenticationResponseBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,34 +42,37 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
         repository.save(user);
-        return AuthenticationResponseBuilder.anAuthenticationResponse().accessToken(jwtService.generateToken(user)).build();
+
+        return AuthenticationResponseBuilder.anAuthenticationResponse()
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(jwtService.generateRefreshToken(user))
+                .build();
     }
 
     public AuthenticationResponse authentication(AuthenticationRequest request) {
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
+        var user = repository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        var user = repository.findByEmail(request.getEmail()).orElseThrow();
-
-        return AuthenticationResponseBuilder.anAuthenticationResponse().accessToken(jwtService.generateToken(user)).build();
+        return AuthenticationResponseBuilder.anAuthenticationResponse()
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(jwtService.generateRefreshToken(user))
+                .build();
     }
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
             return;
         }
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
+        final String refreshToken = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null){
-            var user = this.repository.findByEmail(userEmail).orElseThrow();
+            var user = this.repository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("User not found"));
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
                 var authResponse = AuthenticationResponseBuilder.anAuthenticationResponse()

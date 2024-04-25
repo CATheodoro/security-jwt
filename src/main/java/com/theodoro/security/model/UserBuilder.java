@@ -1,11 +1,11 @@
-package com.theodoro.security.user;
+package com.theodoro.security.model;
 
 public final class UserBuilder {
     private Integer id;
     private String name;
     private String email;
     private String password;
-    private Role role;
+    private RoleEnum role;
 
     private UserBuilder() {
     }
@@ -34,7 +34,7 @@ public final class UserBuilder {
         return this;
     }
 
-    public UserBuilder role(Role role) {
+    public UserBuilder role(RoleEnum role) {
         this.role = role;
         return this;
     }

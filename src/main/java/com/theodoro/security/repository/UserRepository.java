@@ -1,5 +1,6 @@
-package com.theodoro.security.user;
+package com.theodoro.security.repository;
 
+import com.theodoro.security.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
