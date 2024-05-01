@@ -1,8 +1,8 @@
-﻿# security-jwt
+﻿# Security-jwt
 
-### Sessão
+# Sessão
 
-[Introdução](#Introdução)
+[Introdução](#introdução)
 
 [Tecnologis utilizadas](#tecnologis-utilizadas)
 
@@ -14,10 +14,10 @@
 
 [Conclusão](#conclusão)
 
-﻿# Introdução
+# Introdução
 O aplicativo de segurança é uma plataforma desenvolvida para gerenciar autenticação, autorização e controle de acesso em sistemas web. Ele oferece funcionalidades para registro de usuários, autenticação baseada em tokens JWT, controle de permissões de acesso e envio de e-mails de verificação.
 
-﻿# Tecnologis Utilizadas
+# Tecnologis Utilizadas
 As principais tecnologias utilizadas incluem Spring Boot, Spring Security, Hibernate, Thymeleaf, e JavaMailSender.
 
 # Requisitos
