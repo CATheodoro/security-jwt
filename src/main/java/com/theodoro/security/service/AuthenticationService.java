@@ -2,10 +2,7 @@ package com.theodoro.security.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoro.security.config.JwtService;
-import com.theodoro.security.model.Token;
-import com.theodoro.security.model.TokenBuilder;
-import com.theodoro.security.model.User;
-import com.theodoro.security.model.UserBuilder;
+import com.theodoro.security.model.*;
 import com.theodoro.security.repository.RoleRepository;
 import com.theodoro.security.repository.TokenRepository;
 import com.theodoro.security.repository.UserRepository;
@@ -29,6 +26,8 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.theodoro.security.model.RoleEnum.USER;
 
 @Service
 public class AuthenticationService {
@@ -55,7 +54,7 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegisterRequest request) throws MessagingException {
-        var roles = roleRepository.findByName("USER")
+        var roles = roleRepository.findByName(USER.name())
                 .orElseThrow(() -> new IllegalArgumentException("Role USER was not initialized"));
         var user = UserBuilder.anUser()
                 .name(request.getName())
