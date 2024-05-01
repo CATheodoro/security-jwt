@@ -4,13 +4,11 @@ import com.theodoro.security.request.AuthenticationRequest;
 import com.theodoro.security.request.RegisterRequest;
 import com.theodoro.security.response.AuthenticationResponse;
 import com.theodoro.security.service.AuthenticationService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -25,8 +23,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(service.register(request));
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) throws MessagingException {
+        service.register(request);
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/authenticate")
@@ -37,5 +36,10 @@ public class AuthenticationController {
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         service.refreshToken(request, response);
+    }
+
+    @GetMapping("/activate-account")
+    public void confirmEmail(@RequestParam String token) throws MessagingException {
+        service.activateAccount(token);
     }
 }

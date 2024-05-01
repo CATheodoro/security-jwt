@@ -1,13 +1,15 @@
 package com.theodoro.security.request;
 
-import com.theodoro.security.model.RoleEnum;
+import com.theodoro.security.model.Role;
+
+import java.util.List;
 
 public class RegisterRequest {
 
     private String name;
     private String email;
     private String password;
-    private RoleEnum role;
+    private List<Role> roles;
 
     public String getName() {
         return name;
@@ -33,11 +35,11 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public RoleEnum getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(RoleEnum role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
