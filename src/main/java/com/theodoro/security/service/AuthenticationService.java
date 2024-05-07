@@ -1,7 +1,7 @@
 package com.theodoro.security.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theodoro.security.config.JwtService;
+import com.theodoro.security.infra.security.JwtService;
 import com.theodoro.security.model.*;
 import com.theodoro.security.repository.RoleRepository;
 import com.theodoro.security.repository.TokenRepository;

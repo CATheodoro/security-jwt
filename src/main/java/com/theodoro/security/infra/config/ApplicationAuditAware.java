@@ -1,4 +1,4 @@
-package com.theodoro.security.config;
+package com.theodoro.security.infra.config;
 
 import com.theodoro.security.model.User;
 import org.springframework.data.domain.AuditorAware;

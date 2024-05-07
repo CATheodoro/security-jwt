@@ -27,8 +27,8 @@ services:
     container_name: mail-dev-bsn
     image: maildev/maildev
     ports:
-      - 1080:1080
-      - 1025:1025
+      - "1080:1080"
+      - "1025:1025"
 
 volumes:
   mysql-data:

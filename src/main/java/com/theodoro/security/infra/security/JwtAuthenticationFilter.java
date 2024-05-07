@@ -1,4 +1,4 @@
-package com.theodoro.security.config;
+package com.theodoro.security.infra.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

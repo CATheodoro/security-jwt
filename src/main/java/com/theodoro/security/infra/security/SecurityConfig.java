@@ -1,4 +1,4 @@
-package com.theodoro.security.config;
+package com.theodoro.security.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
