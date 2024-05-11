@@ -63,7 +63,6 @@ public class AuthenticationService {
                 .roles(List.of(roles))
                 .accountLocked(false)
                 .enabled(false)
-                .createdDate(LocalDateTime.now())
                 .build();
         userRepository.save(user);
         sendValidationEmail(user);
