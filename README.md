@@ -10,6 +10,8 @@
 
 [Configuração do Ambiente](#configuração-do-ambiente)
 
+[Serviços Necessários](#serviços-necessários)
+
 [Endpoints](#endpoints)
 
 [Conclusão](#conclusão)
@@ -46,6 +48,13 @@ mvn clean install
 java -jar target/security-app.jar
 ```
 
+# Serviços Necessários
+
+|  Serviço   |         Portas        |
+|------------|-----------------------|
+| PhpMyadmin | http://localhost:80   |
+| MailDev    | http://localhost:1080 |
+
 # Endpoints
 
 UserController
@@ -54,7 +63,7 @@ UserController
 | /api/v1/auth/register          |  POST  | Registra um novo usuário no sistema.        |
 | /api/v1/auth/authenticate	     |  POST  | Autentica no sistema retornando um Token.   |
 | /api/v1/auth/refresh-token     |  POST  | Gera um novo Token.                         |
-| /api/v1/auth/activate-account  |  GET   | Ativa a conta do usuário via E-mail.        |
+| /api/v1/auth/activate-account  |  GET   | Ativa a conta do usuário via E-mail, usando MailDev([Documentação](https://github.com/maildev/maildev)) |
 
 UserController
 |            Endpoint            | Método |                  Descrição                  |
