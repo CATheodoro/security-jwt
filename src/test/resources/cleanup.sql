@@ -1,0 +1,2 @@
+DELETE FROM token;
+DELETE FROM account;

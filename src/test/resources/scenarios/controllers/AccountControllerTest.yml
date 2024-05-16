@@ -1,0 +1,7 @@
+shouldReturnCreatedWhenPostAccountRegister:
+  body: >-
+    {
+      "name" : "Carlos T. Damasceno",
+      "email" : "carlos@gmail.com",
+      "password" : "Senha#123"
+    }
