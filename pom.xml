@@ -88,6 +88,13 @@
 			<version>2.5.0</version>
 		</dependency>
 
+		<!-- Database in Memory Test -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- Spring Boot Starter Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

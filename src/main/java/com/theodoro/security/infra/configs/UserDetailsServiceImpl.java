@@ -1,6 +1,6 @@
 package com.theodoro.security.infra.configs;
 
-import com.theodoro.security.repositories.UserRepository;
+import com.theodoro.security.domain.repositories.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final AccountRepository repository;
 
-    public UserDetailsServiceImpl(UserRepository repository) {
+    public UserDetailsServiceImpl(AccountRepository repository) {
         this.repository = repository;
     }
 

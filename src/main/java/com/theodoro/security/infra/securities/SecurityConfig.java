@@ -12,6 +12,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.theodoro.security.api.rest.controllers.AccountController.ACCOUNT_REGISTER_PATH;
+import static com.theodoro.security.api.rest.controllers.MailController.MAIL_ACTIVATE_ACCOUNT_PATH;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
@@ -42,6 +47,10 @@ public class SecurityConfig {
             "/swagger-ui.html"
     };
 
+    private static final String[] ROLE_LIST = {
+            "/api/v1/role/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -50,6 +59,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(POST, ACCOUNT_REGISTER_PATH).permitAll()
+                        .requestMatchers(GET, MAIL_ACTIVATE_ACCOUNT_PATH).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

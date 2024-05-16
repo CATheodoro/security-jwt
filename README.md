@@ -57,7 +57,7 @@ java -jar target/security-app.jar
 
 # Endpoints
 
-UserController
+AuthenticationController
 |            Endpoint            | Método |                  Descrição                  |
 |--------------------------------|--------|---------------------------------------------|
 | /api/v1/auth/register          |  POST  | Registra um novo usuário no sistema.        |
@@ -65,10 +65,10 @@ UserController
 | /api/v1/auth/refresh-token     |  POST  | Gera um novo Token.                         |
 | /api/v1/auth/activate-account  |  GET   | Ativa a conta do usuário via E-mail, usando MailDev([Documentação](https://github.com/maildev/maildev)) |
 
-UserController
+AccountController
 |            Endpoint            | Método |                  Descrição                  |
 |--------------------------------|--------|---------------------------------------------|
-| /api/v1/user                   |  GET   | Retorna todos os Usuário cadastrados.       |
+| /api/v1/account                   |  GET   | Retorna todos os Usuário cadastrados.       |
 
 # Conclusão
 Este guia fornece instruções claras sobre como configurar e usar o aplicativo de segurança. Siga as etapas fornecidas para começar a aproveitar todas as funcionalidades oferecidas pelo aplicativo.

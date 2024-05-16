@@ -1,6 +1,6 @@
 package com.theodoro.security.infra.configs;
 
-import com.theodoro.security.models.User;
+import com.theodoro.security.domain.entities.Account;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ public class ApplicationAuditAware implements AuditorAware<Integer> {
             return Optional.empty();
         }
 
-        User userPrincipal = (User) authentication.getPrincipal();
-        return Optional.ofNullable(userPrincipal.getId());
+        Account accountPrincipal = (Account) authentication.getPrincipal();
+        return Optional.ofNullable(accountPrincipal.getId());
     }
 }
