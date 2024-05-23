@@ -14,7 +14,7 @@ public class ConflictException extends HttpException {
     }
 
     public ConflictException(final ExceptionMessagesEnum exceptionMessagesEnum, final URI locationURI) {
-        super(exceptionMessagesEnum.getCode(), exceptionMessagesEnum.getMessage(), HttpStatus.CONFLICT);
+        super(exceptionMessagesEnum.getCode(), HttpStatus.CONFLICT, exceptionMessagesEnum.getMessage());
         this.location = locationURI;
     }
 

@@ -20,8 +20,8 @@ public class AccountService {
     }
 
     public Account register(Account account) throws MessagingException {
-        var newAccount = accountRepository.save(account);
-        mailService.sendValidationEmail(account);
+        Account newAccount = accountRepository.save(account);
+        mailService.sendActivationEmail(account);
         return newAccount;
     }
 
@@ -31,5 +31,9 @@ public class AccountService {
 
     public Optional<Account> findById(Integer id) {
         return accountRepository.findById(id);
+    }
+
+    public Optional<Account> findByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
 }

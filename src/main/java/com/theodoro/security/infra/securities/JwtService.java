@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -57,7 +58,7 @@ public class JwtService {
     }
 
     public String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, Long expirationJwt){
-        var authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return Jwts
                 .builder()
                 .claims(extraClaims)

@@ -2,15 +2,18 @@ package com.theodoro.security.domain.services;
 
 import com.theodoro.security.domain.entities.Account;
 import com.theodoro.security.domain.entities.Token;
+import com.theodoro.security.domain.exceptions.BadRequestException;
+import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.repositories.AccountRepository;
 import com.theodoro.security.domain.repositories.TokenRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -19,11 +22,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE_MIXED;
 
 @Service
 public class MailService {
+    private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
@@ -46,20 +51,57 @@ public class MailService {
     private String activationUrl;
 
     public void activateAccount(String token) throws MessagingException {
-        Token savedToken = tokenRepository.findByToken(token).orElseThrow(()-> new RuntimeException("Invalid token"));
+        Token savedToken = tokenRepository.findByToken(token).orElseThrow(()-> {
+            logger.error("Token not found: {}", token);
+            return new NotFoundException(TOKEN_NOT_FOUND);
+        });
+
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
-            sendValidationEmail(savedToken.getAccount());
-            throw new RuntimeException("Activation token has expired. A new token has been sent");
+            sendActivationEmail(savedToken.getAccount());
+            throw new BadRequestException(TOKEN_EXPIRED);
         }
-        var account = accountRepository.findById(savedToken.getAccount().getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        account.setEnabled(true);
-        accountRepository.save(account);
-        savedToken.setValidatedAt(LocalDateTime.now());
-        tokenRepository.save(savedToken);
+
+        Account account = accountRepository.findById(savedToken.getAccount().getId()).orElseThrow(() -> {
+            logger.error("Account not found for ID: {}", savedToken.getAccount().getId());
+            return new NotFoundException(ACCOUNT_ID_NOT_FOUND);
+        });
+
+        if(account.isEnabled()) {
+            logger.info("Account already activated");
+            throw new BadRequestException(ACCOUNT_AlREADY_ACTIVATE);
+        }
+
+        activateAccountAndSaveToken(account, savedToken);
     }
 
-    public void sendValidationEmail(Account account) throws MessagingException {
-        var newToken = tokenService.save(account);
+    private void activateAccountAndSaveToken(Account account, Token token) {
+        account.setEnabled(true);
+        accountRepository.save(account);
+
+        token.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(token);
+
+        logger.info("Account {} activated successfully", account.getEmail());
+    }
+
+    public void resendActivationEmail(Account account) throws MessagingException {
+        Token token = tokenRepository.findTopByAccountOrderByExpiresAtDesc(account).orElseThrow(() -> new NotFoundException(TOKEN_NOT_FOUND));
+
+        if (token.getValidatedAt() != null) {
+            logger.info("Account already activated");
+            throw new BadRequestException(ACCOUNT_AlREADY_ACTIVATE);
+        }
+
+        if (LocalDateTime.now().isBefore(token.getCreatedAt().plusMinutes(1))){
+            throw new BadRequestException(TOKEN_CAN_NOT_RESEND);
+        }
+
+        logger.warn("Resending Token for account: {}. Sending new token email.", token.getAccount().getEmail());
+        sendActivationEmail(account);
+    }
+
+    public void sendActivationEmail(Account account) throws MessagingException {
+        String newToken = tokenService.save(account);
         sendEmail(
                 account.getEmail(),
                 account.getName(),
@@ -68,6 +110,8 @@ public class MailService {
                 newToken,
                 "Account activation"
         );
+
+        logger.info("New activation token sent to {}", account.getEmail());
     }
 
     @Async

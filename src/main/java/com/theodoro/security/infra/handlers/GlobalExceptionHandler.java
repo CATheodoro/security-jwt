@@ -2,6 +2,7 @@ package com.theodoro.security.infra.handlers;
 
 import com.theodoro.security.api.rest.models.errors.ErrorModel;
 import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
+import com.theodoro.security.domain.exceptions.ConflictException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +68,15 @@ public class GlobalExceptionHandler {
         });
         return ResponseEntity
                 .status(BAD_REQUEST)
+                .body(errorModel);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorModel> handleMethodArgumentNotValidException(ConflictException exp) {
+        ErrorModel errorModel = new ErrorModel(exp.getCode(), exp.getMessage());
+        return ResponseEntity
+                .status(CONFLICT)
+                .location(exp.getLocation())
                 .body(errorModel);
     }
 }

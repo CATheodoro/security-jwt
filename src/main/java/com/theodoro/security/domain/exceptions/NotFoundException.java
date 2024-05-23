@@ -10,6 +10,6 @@ public class NotFoundException extends HttpException {
     }
 
     public NotFoundException(final ExceptionMessagesEnum exceptionMessagesEnum) {
-        super(exceptionMessagesEnum.getCode(), exceptionMessagesEnum.getMessage(), HttpStatus.NOT_FOUND);
+        super(exceptionMessagesEnum.getCode(), HttpStatus.NOT_FOUND, exceptionMessagesEnum.getMessage());
     }
 }

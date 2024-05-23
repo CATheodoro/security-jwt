@@ -5,22 +5,28 @@ import com.theodoro.security.api.rest.assemblers.AuthenticationAssembler;
 import com.theodoro.security.api.rest.models.requests.AuthenticationRequest;
 import com.theodoro.security.api.rest.models.responses.AuthenticationResponse;
 import com.theodoro.security.domain.entities.Account;
+import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.repositories.AccountRepository;
 import com.theodoro.security.infra.securities.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ACCOUNT_EMAIL_NOT_FOUND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 public class AuthenticationService {
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final AccountRepository accountRepository;
     private final JwtService jwtService;
@@ -35,15 +41,15 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authentication(AuthenticationRequest request) {
-        var auth = authenticationManager.authenticate(
+        Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var claims = new HashMap<String, Object>();
-        var account = ((Account)auth.getPrincipal());
+        Account account = ((Account)auth.getPrincipal());
 
+        Map<String, Object> claims = new HashMap<String, Object>();
         claims.put("name", account.getName());
 
         return authenticationAssembler.toEntity(jwtService.generateToken(claims, account),
@@ -58,11 +64,12 @@ public class AuthenticationService {
         final String refreshToken = authHeader.substring(7);
         final String accountEmail = jwtService.extractUsername(refreshToken);
         if (accountEmail != null){
-            var account = accountRepository.findByEmail(accountEmail).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            logger.info("//TODO error log");
+            Account account = accountRepository.findByEmail(accountEmail).orElseThrow(() -> new NotFoundException(ACCOUNT_EMAIL_NOT_FOUND));
             if (jwtService.isTokenValid(refreshToken, account)) {
-                var accessToken = jwtService.generateToken(account);
+                String accessToken = jwtService.generateToken(account);
 
-                var authResponse = authenticationAssembler.toEntity(accessToken, refreshToken);
+                AuthenticationResponse authResponse = authenticationAssembler.toEntity(accessToken, refreshToken);
 
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }

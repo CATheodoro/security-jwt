@@ -10,6 +10,6 @@ public class BadRequestException extends HttpException {
     }
 
     public BadRequestException(final ExceptionMessagesEnum exceptionMessagesEnum) {
-        super(exceptionMessagesEnum.getCode(), exceptionMessagesEnum.getMessage(), HttpStatus.BAD_REQUEST);
+        super(exceptionMessagesEnum.getCode(), HttpStatus.BAD_REQUEST, exceptionMessagesEnum.getMessage());
     }
 }

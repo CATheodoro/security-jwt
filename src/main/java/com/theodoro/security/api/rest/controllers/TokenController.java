@@ -3,6 +3,8 @@ package com.theodoro.security.api.rest.controllers;
 import com.theodoro.security.api.rest.assemblers.TokenAssembler;
 import com.theodoro.security.api.rest.models.responses.TokenResponse;
 import com.theodoro.security.domain.entities.Token;
+import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
+import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.TokenService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.TOKEN_NOT_FOUND;
 
 @RestController
 public class TokenController {
@@ -28,13 +32,13 @@ public class TokenController {
 
     @GetMapping(TOKEN_RESOURCE_PATH)
     public ResponseEntity<List<TokenResponse>> findAll() {
-        var tokens = tokenService.findAll();
+        List<Token> tokens = tokenService.findAll();
         return ResponseEntity.ok(tokenAssembler.toListModel(tokens));
     }
 
     @GetMapping(TOKEN_SELF_PATH)
     public ResponseEntity<TokenResponse> findById(@PathVariable("id") final Integer id) {
-        Token token = tokenService.findById(id).orElseThrow(() -> new EntityNotFoundException("User ID was not Found"));
+        Token token = tokenService.findById(id).orElseThrow(() -> new NotFoundException(TOKEN_NOT_FOUND));
         return ResponseEntity.ok(tokenAssembler.toModel(token));
     }
 }

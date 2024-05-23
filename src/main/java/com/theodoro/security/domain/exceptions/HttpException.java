@@ -12,7 +12,7 @@ public class HttpException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
-    public HttpException(final Integer code, final String message, final HttpStatus httpStatus) {
+    public HttpException(final Integer code, final HttpStatus httpStatus, final String message) {
         super(message);
         this.code = code;
         this.httpStatus = httpStatus;

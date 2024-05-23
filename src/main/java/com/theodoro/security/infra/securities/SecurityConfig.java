@@ -13,9 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.theodoro.security.api.rest.controllers.AccountController.ACCOUNT_REGISTER_PATH;
+import static com.theodoro.security.api.rest.controllers.AuthenticationController.AUTHENTICATION_AUTHENTICATE_PATH;
+import static com.theodoro.security.api.rest.controllers.AuthenticationController.AUTHENTICATION_REFRESH_TOKEN_PATH;
 import static com.theodoro.security.api.rest.controllers.MailController.MAIL_ACTIVATE_ACCOUNT_PATH;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static com.theodoro.security.api.rest.controllers.MailController.MAIL_SEND_TOKEN_EMAIL_PATH;
 
 @Configuration
 @EnableWebSecurity
@@ -30,8 +31,14 @@ public class SecurityConfig {
         this.authenticationProvider = authenticationProvider;
     }
 
-    private static final String[] AUTH_WHITELIST = {
-            "/api/v1/auth/**"
+    private static final String[] WHITELIST = {
+            AUTHENTICATION_AUTHENTICATE_PATH,
+            AUTHENTICATION_REFRESH_TOKEN_PATH,
+
+            ACCOUNT_REGISTER_PATH,
+
+            MAIL_ACTIVATE_ACCOUNT_PATH,
+            MAIL_SEND_TOKEN_EMAIL_PATH
     };
 
     private static final String[] SWAGGER_WHITELIST = {
@@ -47,20 +54,14 @@ public class SecurityConfig {
             "/swagger-ui.html"
     };
 
-    private static final String[] ROLE_LIST = {
-            "/api/v1/role/**"
-    };
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(WHITELIST).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
-                        .requestMatchers(POST, ACCOUNT_REGISTER_PATH).permitAll()
-                        .requestMatchers(GET, MAIL_ACTIVATE_ACCOUNT_PATH).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

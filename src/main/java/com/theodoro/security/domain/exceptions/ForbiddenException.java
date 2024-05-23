@@ -10,6 +10,6 @@ public class ForbiddenException extends HttpException {
     }
 
     public ForbiddenException(final ExceptionMessagesEnum exceptionMessagesEnum) {
-        super(exceptionMessagesEnum.getCode(), exceptionMessagesEnum.getMessage(), HttpStatus.FORBIDDEN);
+        super(exceptionMessagesEnum.getCode(), HttpStatus.FORBIDDEN, exceptionMessagesEnum.getMessage());
     }
 }

@@ -30,7 +30,7 @@ public class TokenService {
 
     public String save(Account account) {
         String generatedToken = generateActivationCode();
-        var token = tokenAssembler.toEntity(generatedToken, account);
+        Token token = tokenAssembler.toEntity(generatedToken, account);
 
         tokenRepository.save(token);
         return generatedToken;
