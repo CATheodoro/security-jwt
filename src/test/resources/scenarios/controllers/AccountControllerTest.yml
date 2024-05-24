@@ -5,3 +5,11 @@ shouldReturnCreatedWhenPostAccountRegister:
       "email" : "carlos@gmail.com",
       "password" : "Senha#123"
     }
+
+shouldReturnConflictWhenPostAuthenticationRegisterWithAlreadyEmailRegistered:
+  body: >-
+    {
+      "name" : "Ruan Felipe",
+      "email" : "ruan@gmail.com",
+      "password" : "Senha#123"
+    }

@@ -13,6 +13,7 @@ public enum ExceptionMessagesEnum {
     TOKEN_CAN_NOT_RESEND(400, BAD_REQUEST, "Wait a minute for resend token"),
     TOKEN_EXPIRED(400, BAD_REQUEST, "Activation token has expired. A new token has been sent"),
     ACCOUNT_AlREADY_ACTIVATE(400, BAD_REQUEST, "Account already activated"),
+    REFRESH_TOKEN_EXPIRED(400, BAD_REQUEST, "Refresh token has expired."),
 
     //401
     ACCOUNT_LOCKED(401, UNAUTHORIZED, "User account is locked."),
@@ -24,7 +25,6 @@ public enum ExceptionMessagesEnum {
     TOKEN_NOT_FOUND(404, NOT_FOUND, "Token informed not found, cannot activate account."),
 
     //403
-
     NOT_AUTHORIZED(403, FORBIDDEN,"Not authorized."),
 
     //409

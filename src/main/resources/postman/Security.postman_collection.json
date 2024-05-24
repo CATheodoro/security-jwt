@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "4167c1bb-dd14-4a92-b39f-79698591e743",
+		"name": "Security",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12015072"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Authentication",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"carlos12@gmail.com\",\r\n    \"password\" : \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiQ2FybG9zIEFsZXhhbmRyZSBUaGVvZG9ybyBEYW1hc2Nlbm8iLCJzdWIiOiJzZW5oYTEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTU2MzQ5MjUsImV4cCI6MTcxNTcyMTMyNSwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdfQ.MDZxvR-pLTTWbihLaMxjUYVgOMu-E2vr-RL8BXFCncJ2sC00TxCz9JwGPsDayEhiAEpEVr2NJqM_jt1vt4jNeA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiQ2FybG9zIFQuIERhbWFzY2VubyIsInN1YiI6ImNhcmxvczEyQGdtYWlsLmNvbSIsImlhdCI6MTcxNjUwMTUyNiwiZXhwIjoxNzE2NTg3OTI2LCJhdXRob3JpdGllcyI6WyJVU0VSIl19.WQmPG_6muysviOGPTBxQ1Bc2lqYGJdlzN-T76A2I-M38B07hmk_oOGxpaDgCKHQcViKun9OBXFZGvIrbODsvMQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiQ2FybG9zIFQuIERhbWFzY2VubyIsInN1YiI6ImNhcmxvczEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTU4MDkzMDMsImV4cCI6MTcxNTg5NTcwMywiYXV0aG9yaXRpZXMiOlsiVVNFUiJdfQ.TDaeeyUFs7fA2OZyLN14so8Jkv6kRv8HeBv9FhUu_2rUy2sK6Z2eHQFiZFkYnuX5fa5B2-JbtP6NBXxtrqAPxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/account/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Carlos T. Damasceno\",\r\n    \"email\" : \"carlos423423423@gmail.com\",\r\n    \"password\" : \"Senha#123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/account/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Get All Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiQ2FybG9zIEFsZXhhbmRyZSBUaGVvZG9ybyBEYW1hc2Nlbm8iLCJzdWIiOiJzZW5oYTEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTU2MjY5NzUsImV4cCI6MTcxNTcxMzM3NSwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdfQ.99qIH24ePLHThjf0kw9PXUG1GJWRqejtrSlTB8nfJCNZuv_IfKXTjsySKqBlXJbW6pV3TnivoPrnuLpCyjiEtw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiQ2FybG9zIEFsZXhhbmRyZSBUaGVvZG9ybyBEYW1hc2Nlbm8iLCJzdWIiOiJzZW5oYTEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTU2MjY5NzUsImV4cCI6MTcxNTcxMzM3NSwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdfQ.99qIH24ePLHThjf0kw9PXUG1GJWRqejtrSlTB8nfJCNZuv_IfKXTjsySKqBlXJbW6pV3TnivoPrnuLpCyjiEtw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/token/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"token",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mail",
+			"item": [
+				{
+					"name": "Activate Account",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/mail/activate-account?token=326727",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"mail",
+								"activate-account"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "326727"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Token Email",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"carlos7@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/mail/send-token-email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"mail",
+								"send-token-email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

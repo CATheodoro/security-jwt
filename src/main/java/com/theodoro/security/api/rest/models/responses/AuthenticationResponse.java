@@ -31,4 +31,11 @@ public class AuthenticationResponse {
         this.refreshToken = refreshToken;
     }
 
+    public AuthenticationResponse() {
+    }
+
+    public AuthenticationResponse(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }

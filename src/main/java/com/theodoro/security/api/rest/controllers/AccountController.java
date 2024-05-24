@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ACCOUNT_ID_NOT_FOUND;
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.USER_ALREADY_EXISTS;
 
 @RestController
 public class AccountController {
@@ -25,6 +26,7 @@ public class AccountController {
     public static final String ACCOUNT_RESOURCE_PATH = "/api/v1/account";
     public static final String ACCOUNT_REGISTER_PATH = ACCOUNT_RESOURCE_PATH + "/register";
     public static final String ACCOUNT_SELF_PATH = ACCOUNT_RESOURCE_PATH + "/{id}";
+    public static final String ACCOUNT_CHANGE_PASSWORD_PATH = ACCOUNT_RESOURCE_PATH + "/change-password";
 
     private final AccountService accountservice;
     private final AccountAssembler accountAssembler;
@@ -36,12 +38,14 @@ public class AccountController {
 
     @PostMapping(ACCOUNT_REGISTER_PATH)
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) throws MessagingException {
-        Account account = accountAssembler.toEntity(request);
         accountservice.findByEmail(request.getEmail()).ifPresent(search -> {
-            throw new ConflictException(ExceptionMessagesEnum.USER_ALREADY_EXISTS,
+            throw new ConflictException(USER_ALREADY_EXISTS,
                     accountAssembler.buildSelfLink(search.getId()).toUri());
         });
+
+        Account account = accountAssembler.toEntity(request);
         Account newAccount = accountservice.register(account);
+
         return ResponseEntity.created(accountAssembler.buildSelfLink(newAccount.getId()).toUri()).build();
     }
 
@@ -53,8 +57,11 @@ public class AccountController {
 
     @GetMapping(ACCOUNT_SELF_PATH)
     public ResponseEntity<AccountResponse> findById(@PathVariable("id") final Integer id) {
-        logger.info("//TODO error log");
-        Account account = accountservice.findById(id).orElseThrow(() -> new NotFoundException(ACCOUNT_ID_NOT_FOUND));
+
+        Account account = accountservice.findById(id).orElseThrow(() -> {
+            logger.info("User account not found for id: {}", id);
+            throw  new NotFoundException(ACCOUNT_ID_NOT_FOUND);
+        });
         return ResponseEntity.ok(accountAssembler.toModel(account));
     }
 }

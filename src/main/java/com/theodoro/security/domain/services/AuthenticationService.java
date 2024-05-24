@@ -64,8 +64,10 @@ public class AuthenticationService {
         final String refreshToken = authHeader.substring(7);
         final String accountEmail = jwtService.extractUsername(refreshToken);
         if (accountEmail != null){
-            logger.info("//TODO error log");
-            Account account = accountRepository.findByEmail(accountEmail).orElseThrow(() -> new NotFoundException(ACCOUNT_EMAIL_NOT_FOUND));
+            Account account = accountRepository.findByEmail(accountEmail).orElseThrow(() -> {
+                logger.info("//TODO error log");
+                throw new NotFoundException(ACCOUNT_EMAIL_NOT_FOUND);
+            });
             if (jwtService.isTokenValid(refreshToken, account)) {
                 String accessToken = jwtService.generateToken(account);
 

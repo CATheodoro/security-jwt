@@ -1,9 +1,10 @@
 package com.theodoro.security.infra.handlers;
 
 import com.theodoro.security.api.rest.models.errors.ErrorModel;
-import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
 import com.theodoro.security.domain.exceptions.ConflictException;
+import com.theodoro.security.domain.exceptions.HttpException;
 import jakarta.mail.MessagingException;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,9 +13,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.*;
 import static org.springframework.http.HttpStatus.*;
@@ -47,10 +45,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorModel> handleException(BadCredentialsException exp) {
-
         return ResponseEntity
                 .status(BAD_REQUEST)
-                .body(new ErrorModel(BAD_CREDENTIALS.getCode(), exp.getMessage()));
+                .body(new ErrorModel(BAD_CREDENTIALS.getCode(), BAD_CREDENTIALS.getMessage()));
     }
 
     @ExceptionHandler(MessagingException.class)
@@ -67,7 +64,7 @@ public class GlobalExceptionHandler {
             errorModel.addError(HttpStatus.BAD_REQUEST.value(), fieldError.getField() + " " + fieldError.getDefaultMessage());
         });
         return ResponseEntity
-                .status(BAD_REQUEST)
+                .status(exp.getStatusCode())
                 .body(errorModel);
     }
 
@@ -78,5 +75,12 @@ public class GlobalExceptionHandler {
                 .status(CONFLICT)
                 .location(exp.getLocation())
                 .body(errorModel);
+    }
+
+    @ExceptionHandler({HttpException.class, ValidationException.class})
+    public ResponseEntity<ErrorModel> httpException(final HttpException exp) {
+        return ResponseEntity
+                .status(exp.getHttpStatus())
+                .body(new ErrorModel(exp.getCode(), exp.getMessage()));
     }
 }

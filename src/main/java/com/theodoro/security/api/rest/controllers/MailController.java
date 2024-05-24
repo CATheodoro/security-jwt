@@ -9,10 +9,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ACCOUNT_EMAIL_NOT_FOUND;
 
@@ -38,7 +35,7 @@ public class MailController {
         mailService.activateAccount(token);
     }
 
-    @GetMapping(MAIL_SEND_TOKEN_EMAIL_PATH)
+    @PostMapping(MAIL_SEND_TOKEN_EMAIL_PATH)
     public void revalidationEmail(@RequestBody @Valid EmailRequest emailRequest) throws MessagingException {
         Account account = accountService.findByEmail(emailRequest.getEmail()).orElseThrow(() -> {
             logger.info("//TODO error log");

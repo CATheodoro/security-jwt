@@ -18,7 +18,7 @@ public class AuthenticationController {
 
     public static final String AUTHENTICATION_RESOURCE_PATH = "/api/v1/auth";
     public static final String AUTHENTICATION_AUTHENTICATE_PATH = AUTHENTICATION_RESOURCE_PATH + "/authenticate";
-    public static final String AUTHENTICATION_REFRESH_TOKEN_PATH = AUTHENTICATION_RESOURCE_PATH + "refresh-token";
+    public static final String AUTHENTICATION_REFRESH_TOKEN_PATH = AUTHENTICATION_RESOURCE_PATH + "/refresh-token";
 
     private final AuthenticationService service;
 

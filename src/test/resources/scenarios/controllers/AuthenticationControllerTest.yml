@@ -1,0 +1,13 @@
+shouldReturnOkWhenPostAuthenticationAuthenticate:
+  body: >-
+    {
+      "email" : "vitor@gmail.com",
+      "password" : "Senha#123"
+    }
+
+shouldReturnBadRequestWhenPostWithWrongPassword:
+  body: >-
+    {
+      "email" : "vitor@gmail.com",
+      "password" : "SenhaErrada#123"
+    }
