@@ -13,8 +13,8 @@ INSERT INTO account (id, email, name, password, enabled, created_date, last_modi
 VALUES ('81803ca6-88bb-421b-a220-90b8c7fe5948', 'vitor@gmail.com', 'Vitor Hugo', '$2a$10$/Ewn34uMOhPGZFvZtOem9e3Nkf6K/CCkjfMZTBfaeufKXWn7AFRlG', 1, '2024-05-13 17:47:32.028259', null, 0);
 
 --ACCOUNT_ROLES
-INSERT INTO account_roles (users_id, roles_id)
+INSERT INTO account_roles (accounts_id, roles_id)
 VALUES ('e8511df9-43a7-4384-90b1-bb9da544db34', '81803ca6-88bb-421b-a220-90b8c7fe5948');
 
-INSERT INTO account_roles (users_id, roles_id)
+INSERT INTO account_roles (accounts_id, roles_id)
 VALUES ('81803ca6-88bb-421b-a220-90b8c7fe5948', '81803ca6-88bb-421b-a220-90b8c7fe5948');

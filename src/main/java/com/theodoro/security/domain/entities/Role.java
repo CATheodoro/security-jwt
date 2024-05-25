@@ -26,8 +26,8 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
-    @Column(name = "users")
-    private List<Account> users;
+    @Column(name = "accounts")
+    private List<Account> accounts;
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
@@ -45,12 +45,12 @@ public class Role {
         this.id = id;
     }
 
-    public List<Account> getUsers() {
-        return users;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setUsers(List<Account> users) {
-        this.users = users;
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public String getName() {

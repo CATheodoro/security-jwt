@@ -45,10 +45,10 @@ public class AccountController {
             throw new ConflictException(USER_ALREADY_EXISTS,
                     accountAssembler.buildSelfLink(search.getId()).toUri());
         });
-        Role roles = roleService.findByName(RoleEnum.USER.name()).orElseThrow(() ->
+        Role role = roleService.findByName(RoleEnum.USER.name()).orElseThrow(() ->
                 new NotFoundException(ROLE_NOT_INITIALIZED_NOT_FOUND));
 
-        Account account = accountAssembler.toEntity(request, roles);
+        Account account = accountAssembler.toEntity(request, role);
         Account newAccount = accountservice.register(account);
 
         return ResponseEntity.created(accountAssembler.buildSelfLink(newAccount.getId()).toUri()).build();
