@@ -29,7 +29,7 @@ public class RoleAssembler extends RepresentationModelAssemblerSupport<Role, Rol
         return response;
     }
 
-    public Link buildSelfLink(Integer id) {
+    public Link buildSelfLink(String id) {
         return linkTo(methodOn(RoleController.class).findById(id)).withSelfRel();
     }
 

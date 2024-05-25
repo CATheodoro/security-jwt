@@ -1,6 +1,5 @@
 package com.theodoro.security.domain.entities;
 
-import com.theodoro.security.domain.enumeration.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,9 +19,9 @@ import java.util.stream.Collectors;
 public class Account implements UserDetails, Principal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -88,11 +87,11 @@ public class Account implements UserDetails, Principal {
         return enabled;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

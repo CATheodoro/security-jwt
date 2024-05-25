@@ -38,7 +38,7 @@ public class MailController {
     @PostMapping(MAIL_SEND_TOKEN_EMAIL_PATH)
     public void revalidationEmail(@RequestBody @Valid EmailRequest emailRequest) throws MessagingException {
         Account account = accountService.findByEmail(emailRequest.getEmail()).orElseThrow(() -> {
-            logger.info("//TODO error log");
+            logger.info("User account not found for email {}.", emailRequest.getEmail());
             return new NotFoundException(ACCOUNT_EMAIL_NOT_FOUND);
         });
 

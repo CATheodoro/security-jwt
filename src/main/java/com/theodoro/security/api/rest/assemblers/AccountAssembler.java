@@ -34,7 +34,7 @@ public class AccountAssembler extends RepresentationModelAssemblerSupport<Accoun
         return response;
     }
 
-    public Link buildSelfLink(Integer id) {
+    public Link buildSelfLink(String id) {
         return linkTo(methodOn(AccountController.class).findById(id)).withSelfRel();
     }
 

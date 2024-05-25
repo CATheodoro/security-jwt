@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 public class Token {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @Column(name = "token", unique = true)
     private String token;
@@ -28,11 +28,11 @@ public class Token {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

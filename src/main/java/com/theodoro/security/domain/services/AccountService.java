@@ -29,7 +29,7 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Optional<Account> findById(Integer id) {
+    public Optional<Account> findById(String id) {
         return accountRepository.findById(id);
     }
 

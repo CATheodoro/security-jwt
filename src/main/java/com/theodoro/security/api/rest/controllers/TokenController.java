@@ -38,7 +38,7 @@ public class TokenController {
     }
 
     @GetMapping(TOKEN_SELF_PATH)
-    public ResponseEntity<TokenResponse> findById(@PathVariable("id") final Integer id) {
+    public ResponseEntity<TokenResponse> findById(@PathVariable("id") final String id) {
         Token token = tokenService.findById(id).orElseThrow(() ->{
             logger.info("Token with ID {} not found, cannot activate account.", id);
             return new NotFoundException(TOKEN_NOT_FOUND);

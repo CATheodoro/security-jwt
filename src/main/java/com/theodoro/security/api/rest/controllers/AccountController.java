@@ -61,7 +61,7 @@ public class AccountController {
     }
 
     @GetMapping(ACCOUNT_SELF_PATH)
-    public ResponseEntity<AccountResponse> findById(@PathVariable("id") final Integer id) {
+    public ResponseEntity<AccountResponse> findById(@PathVariable("id") final String id) {
 
         Account account = accountservice.findById(id).orElseThrow(() -> {
             logger.info("User account not found for id: {}", id);

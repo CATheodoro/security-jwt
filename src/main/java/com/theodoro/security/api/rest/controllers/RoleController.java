@@ -4,6 +4,7 @@ import com.theodoro.security.api.rest.assemblers.RoleAssembler;
 import com.theodoro.security.api.rest.models.requests.RoleRequest;
 import com.theodoro.security.api.rest.models.responses.RoleResponse;
 import com.theodoro.security.domain.entities.Role;
+import com.theodoro.security.domain.exceptions.ConflictException;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.RoleService;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ROLE_ALREADY_EXISTS;
 import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ROLE_ID_NOT_FOUND;
 
 @Controller
@@ -44,7 +46,8 @@ public class RoleController {
     @PostMapping(ROLE_RESOURCE_PATH)
     private ResponseEntity<RoleResponse> save(@RequestBody @Valid RoleRequest request) {
         roleService.findByName(request.getName()).ifPresent(searchedRule -> {
-            throw new IllegalArgumentException("Role " + request.getName() + " already exist, " +
+            logger.info("Role {} already exist.", request.getName());
+            throw new ConflictException(ROLE_ALREADY_EXISTS,
                     roleAssembler.buildSelfLink(searchedRule.getId()).toUri());
         });
 
@@ -54,7 +57,7 @@ public class RoleController {
     }
 
     @GetMapping(ROLE_SELF_PATH)
-    public ResponseEntity<RoleResponse> findById(@PathVariable("id") final Integer id) {
+    public ResponseEntity<RoleResponse> findById(@PathVariable("id") final String id) {
         Role role = roleService.findById(id).orElseThrow(() ->{
             logger.info("Role with ID {} not found.", id);
             return new NotFoundException(ROLE_ID_NOT_FOUND);

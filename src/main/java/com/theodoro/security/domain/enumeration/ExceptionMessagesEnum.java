@@ -30,7 +30,8 @@ public enum ExceptionMessagesEnum {
     NOT_AUTHORIZED(403, FORBIDDEN,"Not authorized."),
 
     //409
-    USER_ALREADY_EXISTS(409, CONFLICT, "E-mail already registered.");
+    USER_ALREADY_EXISTS(409, CONFLICT, "E-mail already registered."),
+    ROLE_ALREADY_EXISTS(409, CONFLICT, "Role already registered.");
 
     private final int code;
     private final HttpStatus httpStatus;

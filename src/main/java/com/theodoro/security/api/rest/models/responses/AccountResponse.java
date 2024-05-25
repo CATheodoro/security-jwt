@@ -21,7 +21,7 @@ import java.util.List;
 public class AccountResponse extends RepresentationModel<AccountResponse> {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
     @JsonProperty("name")
     private String name;
@@ -39,11 +39,11 @@ public class AccountResponse extends RepresentationModel<AccountResponse> {
         this.roles = account.getRoles();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

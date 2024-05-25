@@ -30,7 +30,7 @@ public class TokenAssembler extends RepresentationModelAssemblerSupport<Token, T
         return response;
     }
 
-    public Link buildSelfLink(Integer id) {
+    public Link buildSelfLink(String id) {
         return linkTo(methodOn(TokenController.class).findById(id)).withSelfRel();
     }
 

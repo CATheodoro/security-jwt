@@ -14,9 +14,9 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @Column(name = "name", unique = true)
     private String name;
@@ -37,12 +37,20 @@ public class Role {
     @Column(name = "last_modified_date", insertable = false)
     private LocalDateTime lastModifiedDate;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public List<Account> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Account> users) {
+        this.users = users;
     }
 
     public String getName() {

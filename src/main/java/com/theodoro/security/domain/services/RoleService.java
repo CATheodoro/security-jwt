@@ -27,7 +27,7 @@ public class RoleService {
         return repository.save(role);
     }
 
-    public Optional<Role> findById(Integer id) {
+    public Optional<Role> findById(String id) {
         return repository.findById(id);
     }
 }

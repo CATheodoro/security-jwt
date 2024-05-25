@@ -1,6 +1,5 @@
 package com.theodoro.security.infra.configs;
 
-import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.repositories.AccountRepository;
 import jakarta.transaction.Transactional;

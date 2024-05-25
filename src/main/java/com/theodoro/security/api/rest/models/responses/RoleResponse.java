@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 })
 public class RoleResponse extends RepresentationModel<TokenResponse> {
 
-    private Integer id;
+    private String id;
     private String name;
     private String description;
     private LocalDateTime createdDate;
@@ -29,11 +29,11 @@ public class RoleResponse extends RepresentationModel<TokenResponse> {
         this.lastModifiedDate = role.getLastModifiedDate();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

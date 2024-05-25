@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class TokenResponse extends RepresentationModel<TokenResponse> {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
 
     @JsonProperty("token")
     private String token;
@@ -49,11 +49,11 @@ public class TokenResponse extends RepresentationModel<TokenResponse> {
         this.account = token.getAccount();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

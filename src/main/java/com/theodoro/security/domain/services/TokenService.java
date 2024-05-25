@@ -20,7 +20,7 @@ public class TokenService {
         this.tokenAssembler = tokenAssembler;
     }
 
-    public Optional<Token> findById(Integer id) {
+    public Optional<Token> findById(String id) {
         return tokenRepository.findById(id);
     }
 
