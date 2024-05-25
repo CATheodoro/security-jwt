@@ -1,17 +1,16 @@
 package com.theodoro.security.api.rest.assemblers;
 
 import com.theodoro.security.api.rest.controllers.AccountController;
-import com.theodoro.security.domain.enumeration.RoleEnum;
-import com.theodoro.security.domain.entities.Account;
 import com.theodoro.security.api.rest.models.requests.RegisterRequest;
 import com.theodoro.security.api.rest.models.responses.AccountResponse;
+import com.theodoro.security.domain.entities.Account;
+import com.theodoro.security.domain.entities.Role;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,12 +38,12 @@ public class AccountAssembler extends RepresentationModelAssemblerSupport<Accoun
         return linkTo(methodOn(AccountController.class).findById(id)).withSelfRel();
     }
 
-    public Account toEntity(RegisterRequest request) {
+    public Account toEntity(RegisterRequest request, Role role) {
         Account account = new Account();
         account.setName(request.getName());
         account.setEmail(request.getEmail());
         account.setPassword(passwordEncoder.encode(request.getPassword()));
-        account.setRoles(Collections.singletonList(RoleEnum.valueOf(RoleEnum.USER.name())));
+        account.setRoles(List.of(role));
         account.setAccountLocked(false);
         account.setEnabled(false);
         return account;

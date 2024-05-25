@@ -39,9 +39,9 @@ public class Account implements UserDetails, Principal {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @ManyToMany(fetch = FetchType.EAGER)
     @Column(name = "ROLES", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private List<RoleEnum> roles;
+    private List<Role> roles;
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
@@ -51,11 +51,10 @@ public class Account implements UserDetails, Principal {
     @Column(name = "last_modified_date", insertable = false)
     private LocalDateTime lastModifiedDate;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -129,11 +128,11 @@ public class Account implements UserDetails, Principal {
         this.enabled = enabled;
     }
 
-    public List<RoleEnum> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleEnum> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

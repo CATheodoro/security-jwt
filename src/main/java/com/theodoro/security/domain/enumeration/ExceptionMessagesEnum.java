@@ -23,6 +23,8 @@ public enum ExceptionMessagesEnum {
     ACCOUNT_EMAIL_NOT_FOUND(404, NOT_FOUND, "User account not found for email informed."),
     ACCOUNT_ID_NOT_FOUND(404, NOT_FOUND, "User account not found for id informed."),
     TOKEN_NOT_FOUND(404, NOT_FOUND, "Token informed not found, cannot activate account."),
+    ROLE_ID_NOT_FOUND(404, NOT_FOUND, "Role id informed not found."),
+    ROLE_NOT_INITIALIZED_NOT_FOUND(404, NOT_FOUND, "Role was not initialized."),
 
     //403
     NOT_AUTHORIZED(403, FORBIDDEN,"Not authorized."),

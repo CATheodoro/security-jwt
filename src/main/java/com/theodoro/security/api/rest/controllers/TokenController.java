@@ -3,10 +3,10 @@ package com.theodoro.security.api.rest.controllers;
 import com.theodoro.security.api.rest.assemblers.TokenAssembler;
 import com.theodoro.security.api.rest.models.responses.TokenResponse;
 import com.theodoro.security.domain.entities.Token;
-import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.TokenService;
-import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,7 @@ import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.TOK
 
 @RestController
 public class TokenController {
+    private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
     public static final String TOKEN_RESOURCE_PATH = "/api/v1/token";
     public static final String TOKEN_SELF_PATH = TOKEN_RESOURCE_PATH + "/{id}";
@@ -38,7 +39,10 @@ public class TokenController {
 
     @GetMapping(TOKEN_SELF_PATH)
     public ResponseEntity<TokenResponse> findById(@PathVariable("id") final Integer id) {
-        Token token = tokenService.findById(id).orElseThrow(() -> new NotFoundException(TOKEN_NOT_FOUND));
+        Token token = tokenService.findById(id).orElseThrow(() ->{
+            logger.info("Token with ID {} not found, cannot activate account.", id);
+            return new NotFoundException(TOKEN_NOT_FOUND);
+        });
         return ResponseEntity.ok(tokenAssembler.toModel(token));
     }
 }

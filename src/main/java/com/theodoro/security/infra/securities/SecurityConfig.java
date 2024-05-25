@@ -1,5 +1,6 @@
 package com.theodoro.security.infra.securities;
 
+import com.theodoro.security.api.rest.controllers.RoleController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -38,7 +39,8 @@ public class SecurityConfig {
             ACCOUNT_REGISTER_PATH,
 
             MAIL_ACTIVATE_ACCOUNT_PATH,
-            MAIL_SEND_TOKEN_EMAIL_PATH
+            MAIL_SEND_TOKEN_EMAIL_PATH,
+            RoleController.ROLE_RESOURCE_PATH
     };
 
     private static final String[] SWAGGER_WHITELIST = {

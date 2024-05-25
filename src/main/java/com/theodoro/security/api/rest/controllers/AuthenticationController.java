@@ -20,19 +20,19 @@ public class AuthenticationController {
     public static final String AUTHENTICATION_AUTHENTICATE_PATH = AUTHENTICATION_RESOURCE_PATH + "/authenticate";
     public static final String AUTHENTICATION_REFRESH_TOKEN_PATH = AUTHENTICATION_RESOURCE_PATH + "/refresh-token";
 
-    private final AuthenticationService service;
+    private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService service) {
-        this.service = service;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @PostMapping(AUTHENTICATION_AUTHENTICATE_PATH)
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request){
-        return ResponseEntity.ok(service.authentication(request));
+        return ResponseEntity.ok(authenticationService.authentication(request));
     }
 
     @PostMapping(AUTHENTICATION_REFRESH_TOKEN_PATH)
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        service.refreshToken(request, response);
+        authenticationService.refreshToken(request, response);
     }
 }

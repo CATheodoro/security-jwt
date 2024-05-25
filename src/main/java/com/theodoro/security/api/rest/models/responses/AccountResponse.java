@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.theodoro.security.domain.entities.Account;
-import com.theodoro.security.domain.enumeration.RoleEnum;
+import com.theodoro.security.domain.entities.Role;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
@@ -30,7 +30,7 @@ public class AccountResponse extends RepresentationModel<AccountResponse> {
     private String email;
 
     @JsonProperty("roles")
-    private List<RoleEnum> roles;
+    private List<Role> roles;
 
     public AccountResponse(Account account) {
         this.id = account.getId();
@@ -63,11 +63,11 @@ public class AccountResponse extends RepresentationModel<AccountResponse> {
         this.email = email;
     }
 
-    public List<RoleEnum> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleEnum> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

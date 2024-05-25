@@ -4,10 +4,12 @@ import com.theodoro.security.api.rest.assemblers.AccountAssembler;
 import com.theodoro.security.api.rest.models.requests.RegisterRequest;
 import com.theodoro.security.api.rest.models.responses.AccountResponse;
 import com.theodoro.security.domain.entities.Account;
-import com.theodoro.security.domain.enumeration.ExceptionMessagesEnum;
+import com.theodoro.security.domain.entities.Role;
+import com.theodoro.security.domain.enumeration.RoleEnum;
 import com.theodoro.security.domain.exceptions.ConflictException;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.AccountService;
+import com.theodoro.security.domain.services.RoleService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -17,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.ACCOUNT_ID_NOT_FOUND;
-import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.USER_ALREADY_EXISTS;
+import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.*;
 
 @RestController
 public class AccountController {
@@ -30,10 +31,12 @@ public class AccountController {
 
     private final AccountService accountservice;
     private final AccountAssembler accountAssembler;
+    private final RoleService roleService;
 
-    public AccountController(AccountService accountservice, AccountAssembler accountAssembler) {
+    public AccountController(AccountService accountservice, AccountAssembler accountAssembler, RoleService roleService) {
         this.accountservice = accountservice;
         this.accountAssembler = accountAssembler;
+        this.roleService = roleService;
     }
 
     @PostMapping(ACCOUNT_REGISTER_PATH)
@@ -42,8 +45,10 @@ public class AccountController {
             throw new ConflictException(USER_ALREADY_EXISTS,
                     accountAssembler.buildSelfLink(search.getId()).toUri());
         });
+        Role roles = roleService.findByName(RoleEnum.USER.name()).orElseThrow(() ->
+                new NotFoundException(ROLE_NOT_INITIALIZED_NOT_FOUND));
 
-        Account account = accountAssembler.toEntity(request);
+        Account account = accountAssembler.toEntity(request, roles);
         Account newAccount = accountservice.register(account);
 
         return ResponseEntity.created(accountAssembler.buildSelfLink(newAccount.getId()).toUri()).build();
@@ -60,7 +65,7 @@ public class AccountController {
 
         Account account = accountservice.findById(id).orElseThrow(() -> {
             logger.info("User account not found for id: {}", id);
-            throw  new NotFoundException(ACCOUNT_ID_NOT_FOUND);
+            return new NotFoundException(ACCOUNT_ID_NOT_FOUND);
         });
         return ResponseEntity.ok(accountAssembler.toModel(account));
     }
