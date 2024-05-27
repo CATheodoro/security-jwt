@@ -7,6 +7,7 @@ import com.theodoro.security.domain.entities.Role;
 import com.theodoro.security.domain.exceptions.ConflictException;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.RoleService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,14 @@ public class RoleController {
         this.roleAssembler = roleAssembler;
     }
 
+    @Operation(summary = "Returns all registered rules")
     @GetMapping(ROLE_RESOURCE_PATH)
     private ResponseEntity<List<RoleResponse>> findAll() {
         List<Role> roles = roleService.findAll();
         return ResponseEntity.ok(roleAssembler.toListModel(roles));
     }
 
+    @Operation(summary = "Returns the rule for the given id")
     @PostMapping(ROLE_RESOURCE_PATH)
     private ResponseEntity<RoleResponse> save(@RequestBody @Valid RoleRequest request) {
         roleService.findByName(request.getName()).ifPresent(searchedRule -> {
@@ -56,6 +59,7 @@ public class RoleController {
         return ResponseEntity.created(roleAssembler.buildSelfLink(role.getId()).toUri()).build();
     }
 
+    @Operation(summary = "Register a new Rule in the application")
     @GetMapping(ROLE_SELF_PATH)
     public ResponseEntity<RoleResponse> findById(@PathVariable("id") final String id) {
         Role role = roleService.findById(id).orElseThrow(() ->{

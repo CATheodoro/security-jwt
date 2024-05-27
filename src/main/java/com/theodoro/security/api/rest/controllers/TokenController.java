@@ -5,6 +5,7 @@ import com.theodoro.security.api.rest.models.responses.TokenResponse;
 import com.theodoro.security.domain.entities.Token;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +32,14 @@ public class TokenController {
         this.tokenAssembler = tokenAssembler;
     }
 
+    @Operation(summary = "Returns all registered tokens")
     @GetMapping(TOKEN_RESOURCE_PATH)
     public ResponseEntity<List<TokenResponse>> findAll() {
         List<Token> tokens = tokenService.findAll();
         return ResponseEntity.ok(tokenAssembler.toListModel(tokens));
     }
 
+    @Operation(summary = "Returns the token for the given id")
     @GetMapping(TOKEN_SELF_PATH)
     public ResponseEntity<TokenResponse> findById(@PathVariable("id") final String id) {
         Token token = tokenService.findById(id).orElseThrow(() ->{

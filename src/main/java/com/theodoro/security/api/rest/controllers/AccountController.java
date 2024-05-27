@@ -10,6 +10,7 @@ import com.theodoro.security.domain.exceptions.ConflictException;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.AccountService;
 import com.theodoro.security.domain.services.RoleService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -39,6 +40,7 @@ public class AccountController {
         this.roleService = roleService;
     }
 
+    @Operation(summary = "Register a new user in the application")
     @PostMapping(ACCOUNT_REGISTER_PATH)
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) throws MessagingException {
         accountservice.findByEmail(request.getEmail()).ifPresent(search -> {
@@ -54,12 +56,14 @@ public class AccountController {
         return ResponseEntity.created(accountAssembler.buildSelfLink(newAccount.getId()).toUri()).build();
     }
 
+    @Operation(summary = "Returns all registered users")
     @GetMapping(ACCOUNT_RESOURCE_PATH)
     public ResponseEntity<List<AccountResponse>> findAll(){
         List<Account> accounts = accountservice.findAll();
         return ResponseEntity.ok(accountAssembler.toListModel(accounts));
     }
 
+    @Operation(summary = "Returns the user with the given id")
     @GetMapping(ACCOUNT_SELF_PATH)
     public ResponseEntity<AccountResponse> findById(@PathVariable("id") final String id) {
 

@@ -3,6 +3,7 @@ package com.theodoro.security.api.rest.controllers;
 import com.theodoro.security.api.rest.models.requests.AuthenticationRequest;
 import com.theodoro.security.api.rest.models.responses.AuthenticationResponse;
 import com.theodoro.security.domain.services.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -26,11 +27,13 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    @Operation(summary = "Authenticates in the system by returning a Token")
     @PostMapping(AUTHENTICATION_AUTHENTICATE_PATH)
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request){
         return ResponseEntity.ok(authenticationService.authentication(request));
     }
 
+    @Operation(summary = "Generate a new Token")
     @PostMapping(AUTHENTICATION_REFRESH_TOKEN_PATH)
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);

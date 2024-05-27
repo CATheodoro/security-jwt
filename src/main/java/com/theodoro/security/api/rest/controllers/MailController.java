@@ -5,6 +5,7 @@ import com.theodoro.security.domain.entities.Account;
 import com.theodoro.security.domain.exceptions.NotFoundException;
 import com.theodoro.security.domain.services.AccountService;
 import com.theodoro.security.domain.services.MailService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -29,12 +30,14 @@ public class MailController {
         this.accountService = accountService;
     }
 
+    @Operation(summary = "Activate the user account via email")
     @GetMapping(MAIL_ACTIVATE_ACCOUNT_PATH)
     public void activateAccount(@RequestParam String token) throws MessagingException {
 
         mailService.activateAccount(token);
     }
 
+    @Operation(summary = "Resend the activation token to Email")
     @PostMapping(MAIL_SEND_TOKEN_EMAIL_PATH)
     public void revalidationEmail(@RequestBody @Valid EmailRequest emailRequest) throws MessagingException {
         Account account = accountService.findByEmail(emailRequest.getEmail()).orElseThrow(() -> {
