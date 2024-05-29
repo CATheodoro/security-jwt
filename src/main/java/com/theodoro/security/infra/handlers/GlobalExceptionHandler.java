@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorModel> handleException(Exception exp) {
-        exp.printStackTrace();
         //TODO remove exp.printStackTrace(); Add log
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR)

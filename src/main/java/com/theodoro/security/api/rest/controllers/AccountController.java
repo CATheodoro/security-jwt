@@ -25,6 +25,7 @@ import static com.theodoro.security.domain.enumeration.ExceptionMessagesEnum.*;
 @RestController
 public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+
     public static final String ACCOUNT_RESOURCE_PATH = "/api/v1/account";
     public static final String ACCOUNT_REGISTER_PATH = ACCOUNT_RESOURCE_PATH + "/register";
     public static final String ACCOUNT_SELF_PATH = ACCOUNT_RESOURCE_PATH + "/{id}";

@@ -34,5 +34,4 @@ public class ApplicationTests<T extends ApplicationTests<?>> {
 	protected String getScenarioBody(final String scenario) {
 		return Objects.requireNonNull(yamlProperties.getObject()).getProperty(scenario + ".body");
 	}
-
 }

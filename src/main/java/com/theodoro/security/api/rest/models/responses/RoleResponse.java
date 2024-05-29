@@ -1,8 +1,11 @@
 package com.theodoro.security.api.rest.models.responses;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.theodoro.security.domain.entities.Role;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
@@ -13,12 +16,23 @@ import java.time.LocalDateTime;
         "createdDate",
         "lastModifiedDate"
 })
-public class RoleResponse extends RepresentationModel<TokenResponse> {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Relation(value = "role", collectionRelation = "roles")
+public class RoleResponse extends RepresentationModel<RoleResponse> {
 
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("createdDate")
     private LocalDateTime createdDate;
+
+    @JsonProperty("lastModifiedDate")
     private LocalDateTime lastModifiedDate;
 
     public RoleResponse(Role role) {

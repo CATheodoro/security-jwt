@@ -65,7 +65,7 @@ public class AuthenticationService {
         final String accountEmail = jwtService.extractUsername(refreshToken);
         if (accountEmail != null){
             Account account = accountRepository.findByEmail(accountEmail).orElseThrow(() -> {
-                logger.info("//TODO error log");
+                logger.info("User account not found for email informed.");
                 throw new NotFoundException(ACCOUNT_EMAIL_NOT_FOUND);
             });
             if (jwtService.isTokenValid(refreshToken, account)) {

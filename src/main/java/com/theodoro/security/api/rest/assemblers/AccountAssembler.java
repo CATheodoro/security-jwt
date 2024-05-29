@@ -30,7 +30,7 @@ public class AccountAssembler extends RepresentationModelAssemblerSupport<Accoun
     @Override
     public AccountResponse toModel(@NonNull Account entity) {
         AccountResponse response = new AccountResponse(entity);
-        response.add(this.buildSelfLink(response.getId()));
+        response.add(this.buildSelfLink(entity.getId()));
         return response;
     }
 

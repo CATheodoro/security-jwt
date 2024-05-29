@@ -2,13 +2,11 @@ package com.theodoro.security.api.rest.models.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class EmailRequest {
     @Email(message = "Email is not well formatted")
-    @NotEmpty(message = "Email is mandatory")
-    @NotNull(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
     @JsonProperty("email")
     private String email;
 

@@ -1,14 +1,16 @@
 package com.theodoro.security.api.rest.models.requests;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 
 public class RoleRequest {
 
-    @NotEmpty(message = "Name is mandatory")
-    @NotNull(message = "Name is mandatory")
+    @NotBlank(message = "Name is mandatory")
+    @JsonProperty("name")
     private String name;
 
+    @NotBlank(message = "Description is mandatory")
+    @JsonProperty("description")
     private String description;
 
     public String getName() {
